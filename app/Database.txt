@@ -1,0 +1,34 @@
+package com.example.todolist
+
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.provider.Settings
+import java.sql.Connection
+import java.sql.DriverManager
+
+class Database() {
+    private lateinit var connection: Connection
+    private lateinit var databaseTodos: MutableList<TodoDatabaseResult>
+
+    fun connect() {
+        val jdbcUrl = "jdbc:postgresql://168.119.235.201:5432/todoapp"
+        connection = DriverManager
+            .getConnection(jdbcUrl, "todoapp", "94IMER2vcPC0")
+        println(connection.isValid(0))
+    }
+
+    fun get_data() {
+        val query = connection.prepareStatement("SELECT * FROM Data WHERE uniqueID = User12")
+        val result = query.executeQuery()
+        while (result.next()) {
+            val uniqueID = result.getString("uniqueID")
+            val title = result.getString("title")
+            val isChecked = result.getBoolean("isChecked")
+            databaseTodos.add(TodoDatabaseResult(uniqueID, title, isChecked))
+        }
+    }
+
+    fun insert_data() {
+        val query = connection.prepareStatement("INSERT INTO ")
+    }
+}
